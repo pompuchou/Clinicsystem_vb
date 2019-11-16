@@ -1,0 +1,4 @@
+        <add name="ClinicSystem.My.MySettings.alConnectionString" connectionString="Data Source=ASUS-PC\SQLEXPRESS;Initial Catalog=al;Persist Security Info=True;User ID=sa;Password=syc"
+            providerName="System.Data.SqlClient" />
+        <add name="ClinicSystem.My.MySettings.alConnectionString" connectionString="Data Source=S1\S1;Initial Catalog=al;Persist Security Info=True;User ID=sa;Password=syc"
+            providerName="System.Data.SqlClient" />
