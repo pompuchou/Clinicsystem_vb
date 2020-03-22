@@ -231,14 +231,22 @@ Module SharedFunctions
             Dim ws As Excel.Worksheet = wb.ActiveSheet
 
             '檢查檔案格式
+            '20200319 上個月0211~0222之間改版, 刪除成本價, 院內收費項, 管制藥品重複
+            Dim strT() As String = {"醫令碼", "英文規格", "生效日期", "截止日期", "健保碼", "醫令簡碼", "中文規格", "學名", "類別", "健保價",
+                                        "自費價", "批價單位", "批價比率", "使用單位", "頻率", "途徑", "天數", "調劑方式", "最小劑量", "最大總量",
+                                        "最大天數", "展開方式", "集合醫令明細", "劑型", "副作用", "用途", "用藥指示", "外觀", "成分含量", "廠牌",
+                                        "用藥/排程說明", "藥品備註", "許可證字號", "安全存量", "臨界存量", "給付類別", "疫苗給付類別", "特定治療項目", "檢驗代碼", "案件註記",
+                                        "服務機構代號", "處置碼", "檢查儀器", "停用日期", "有效醫令", "管制藥品", "管制藥品", "磨粉", "病摘", "療程",
+                                        "診斷書", "門診使用", "門診缺藥", "替換代碼", "常用", "列印", "檢核類型", "檢核起", "檢核迄", "檢核性別",
+                                        "異動人員", "異動日期"}
             '2019/8/1 又改版本了
-            Dim strT() As String = {"醫令碼", "英文規格", "生效日期", "截止日期", "健保碼", "醫令簡碼", "中文規格", "學名", "類別",
-                                        "健保價", "自費價", "成本價", "院內收費項", "批價單位", "批價比率", "使用單位", "頻率", "途徑", "天數",
-                                        "調劑方式", "最小劑量", "最大總量", "最大天數", "展開方式", "集合醫令明細", "劑型", "副作用", "用途",
-                                        "用藥指示", "外觀", "成分含量", "廠牌", "用藥/排程說明", "藥品備註", "許可證字號", "安全存量", "臨界存量",
-                                        "給付類別", "疫苗給付類別", "特定治療項目", "檢驗代碼", "案件註記", "服務機構代號", "處置碼", "檢查儀器",
-                                        "停用日期", "有效醫令", "管制藥品", "磨粉", "病摘", "療程", "診斷書", "門診使用", "門診缺藥", "替換代碼", "常用",
-                                        "列印", "檢核類型", "檢核起", "檢核迄", "檢核性別", "異動人員", "異動日期"}
+            'Dim strT() As String = {"醫令碼", "英文規格", "生效日期", "截止日期", "健保碼", "醫令簡碼", "中文規格", "學名", "類別",
+            '                            "健保價", "自費價", "成本價", "院內收費項", "批價單位", "批價比率", "使用單位", "頻率", "途徑", "天數",
+            '                            "調劑方式", "最小劑量", "最大總量", "最大天數", "展開方式", "集合醫令明細", "劑型", "副作用", "用途",
+            '                            "用藥指示", "外觀", "成分含量", "廠牌", "用藥/排程說明", "藥品備註", "許可證字號", "安全存量", "臨界存量",
+            '                            "給付類別", "疫苗給付類別", "特定治療項目", "檢驗代碼", "案件註記", "服務機構代號", "處置碼", "檢查儀器",
+            '                            "停用日期", "有效醫令", "管制藥品", "磨粉", "病摘", "療程", "診斷書", "門診使用", "門診缺藥", "替換代碼", "常用",
+            '                            "列印", "檢核類型", "檢核起", "檢核迄", "檢核性別", "異動人員", "異動日期"}
             '2018-2019/7/31 的版本
             'Dim strT() As String = {"醫令碼", "英文規格", "生效日期", "截止日期", "健保碼", "醫令簡碼", "中文規格", "學名", "類別",
             '                            "健保價", "自費價", "成本價", "院內收費項", "批價單位", "批價比率", "使用單位", "頻率", "途徑", "天數",
@@ -312,31 +320,31 @@ Module SharedFunctions
                                     .r08 = ws.Cells(i, 9).value,  '類別,第9欄
                                     .r09 = ws.Cells(i, 10).value,  '健保價,第10欄
                                     .r10 = ws.Cells(i, 11).value,  '自費價, 第11欄
-                                    .r11 = ws.Cells(i, 12).value,  '成本價, 第12欄
-                                    .r12 = ws.Cells(i, 13).value,  '院內收費項, 第13欄
-                                    .r13 = ws.Cells(i, 16).value,  '使用單位, 第14欄, 20190611 改成第16欄
-                                    .r14 = ws.Cells(i, 14).value,  '批價單位, 第15欄, 20190611 改成第14欄
-                                    .r15 = ws.Cells(i, 17).value,  '頻率, 第16欄, 20190611 改成第17欄
-                                    .r16 = ws.Cells(i, 18).value,  '途徑, 第17欄, 20190611 改成第18欄
-                                    .r18 = ws.Cells(i, 20).value,  '調劑方式, 第19欄, 20190611 改成第20欄
-                                    .r19 = ws.Cells(i, 15).value,  '批價比率, 第20欄, 20190611 改成第15欄
-                                    .r25 = ws.Cells(i, 26).value,  '劑型, 第26欄
-                                    .r26 = ws.Cells(i, 27).value,  '副作用, 第27欄
-                                    .r27 = ws.Cells(i, 28).value,  '用途, 第28欄
-                                    .r28 = ws.Cells(i, 29).value,  '用藥指示, 第29欄
-                                    .r29 = ws.Cells(i, 30).value,  '外觀, 第30欄
-                                    .r30 = ws.Cells(i, 31).value,  '程分含量, 第31欄
-                                    .r31 = ws.Cells(i, 32).value,  '廠牌, 第32欄
-                                    .r32 = ws.Cells(i, 33).value,  '用藥/排程說明, 第33欄
-                                    .r33 = ws.Cells(i, 34).value,  '藥品備註, 第34欄
-                                    .r34 = ws.Cells(i, 35).value,  '許可證字號, 第35欄
-                                    .r40 = ws.Cells(i, 41).value,  '檢驗代碼, 第41欄
-                                    .r48 = ws.Cells(i, 48).value,  '管制藥品, 第49欄, 20190611 改成第48欄
-                                    .r52 = ws.Cells(i, 54).value,  '門診缺藥, 第53欄, 20190929 改成第54欄
-                                    .r60 = ws.Cells(i, 62).value,  '異動人員, 第61欄, 20190929 改成第62欄
-                                    .r61 = ws.Cells(i, 63).value,  '異動日期, 第62欄, 20190929 改成第63欄
+                                    .r13 = ws.Cells(i, 14).value,  '使用單位, 第14欄, 20190611 改成第16欄, 20200319 改成14欄
+                                    .r14 = ws.Cells(i, 12).value,  '批價單位, 第15欄, 20190611 改成第14欄, 20200319 改成12欄
+                                    .r15 = ws.Cells(i, 15).value,  '頻率, 第16欄, 20190611 改成第17欄, 20200319 改成15欄
+                                    .r16 = ws.Cells(i, 16).value,  '途徑, 第17欄, 20190611 改成第18欄, 20200319 改成16欄
+                                    .r18 = ws.Cells(i, 18).value,  '調劑方式, 第19欄, 20190611 改成第20欄, 20200319 改成18欄
+                                    .r19 = ws.Cells(i, 13).value,  '批價比率, 第20欄, 20190611 改成第15欄, 20200319 改成13欄
+                                    .r25 = ws.Cells(i, 24).value,  '劑型, 第26欄, 20200319 改成24欄
+                                    .r26 = ws.Cells(i, 25).value,  '副作用, 第27欄, 20200319 改成25欄
+                                    .r27 = ws.Cells(i, 26).value,  '用途, 第28欄, 20200319 改成26欄
+                                    .r28 = ws.Cells(i, 27).value,  '用藥指示, 第29欄, 20200319 改成27欄
+                                    .r29 = ws.Cells(i, 28).value,  '外觀, 第30欄, 20200319 改成28欄
+                                    .r30 = ws.Cells(i, 29).value,  '程分含量, 第31欄, 20200319 改成29欄
+                                    .r31 = ws.Cells(i, 30).value,  '廠牌, 第32欄, 20200319 改成30欄
+                                    .r32 = ws.Cells(i, 31).value,  '用藥/排程說明, 第33欄, 20200319 改成31欄
+                                    .r33 = ws.Cells(i, 32).value,  '藥品備註, 第34欄, 20200319 改成32欄
+                                    .r34 = ws.Cells(i, 33).value,  '許可證字號, 第35欄, 20200319 改成33欄
+                                    .r40 = ws.Cells(i, 39).value,  '檢驗代碼, 第41欄, 20200319 改成39欄
+                                    .r48 = ws.Cells(i, 47).value,  '管制藥品, 第49欄, 20190611 改成第48欄, 20200319 改成47欄
+                                    .r52 = ws.Cells(i, 53).value,  '門診缺藥, 第53欄, 20190929 改成第54欄, 20200319 改成53欄
+                                    .r60 = ws.Cells(i, 61).value,  '異動人員, 第61欄, 20190929 改成第62欄, 20200319 改成61欄
+                                    .r61 = ws.Cells(i, 62).value,  '異動日期, 第62欄, 20190929 改成第63欄, 20200319 改成62欄
                                     .r62 = Now
                                     }
+                            '.r11 = ws.Cells(i, 12).value,  '成本價, 第12欄, 20200319刪除
+                            '.r12 = ws.Cells(i, 13).value,  '院內收費項, 第13欄, 20200319刪除
                             dc.p_order.InsertOnSubmit(newOd)
                             dc.SubmitChanges()
 
@@ -406,143 +414,143 @@ Module SharedFunctions
                                 bChange = True
                                 oldOd.r10 = ws.Cells(i, 11).value
                             End If
-                            '成本價, 第12欄
-                            If oldOd.r11 <> ws.Cells(i, 12).value Then
-                                strChange += "改成本價: " + oldOd.r11 + "=>" + ws.Cells(i, 12).value + "; "
+                            '成本價, 第12欄, 20200319刪除
+                            'If oldOd.r11 <> ws.Cells(i, 12).value Then
+                            '    strChange += "改成本價: " + oldOd.r11 + "=>" + ws.Cells(i, 12).value + "; "
+                            '    bChange = True
+                            '    oldOd.r11 = ws.Cells(i, 12).value
+                            'End If
+                            '院內收費項, 第13欄, 20200319刪除
+                            'If oldOd.r12 <> ws.Cells(i, 13).value Then
+                            '    strChange += "改院內收費項: " + oldOd.r12 + "=>" + ws.Cells(i, 13).value + "; "
+                            '    bChange = True
+                            '    oldOd.r12 = ws.Cells(i, 13).value
+                            'End If
+                            '使用單位, 第14欄, 20190611 改成第16欄, 20200319 改成14欄
+                            If oldOd.r13 <> ws.Cells(i, 14).value Then
+                                strChange += "改使用單位: " + oldOd.r13 + "=>" + ws.Cells(i, 14).value + "; "
                                 bChange = True
-                                oldOd.r11 = ws.Cells(i, 12).value
+                                oldOd.r13 = ws.Cells(i, 14).value
                             End If
-                            '院內收費項, 第13欄
-                            If oldOd.r12 <> ws.Cells(i, 13).value Then
-                                strChange += "改院內收費項: " + oldOd.r12 + "=>" + ws.Cells(i, 13).value + "; "
+                            '批價單位, 第15欄, 20190611 改成第14欄, 20200319 改成12欄
+                            If oldOd.r14 <> ws.Cells(i, 12).value Then
+                                strChange += "改批價單位: " + oldOd.r14 + "=>" + ws.Cells(i, 12).value + "; "
                                 bChange = True
-                                oldOd.r12 = ws.Cells(i, 13).value
+                                oldOd.r14 = ws.Cells(i, 12).value
                             End If
-                            '使用單位, 第14欄, 20190611 改成第16欄
-                            If oldOd.r13 <> ws.Cells(i, 16).value Then
-                                strChange += "改使用單位: " + oldOd.r13 + "=>" + ws.Cells(i, 16).value + "; "
+                            '頻率, 第16欄, 20190611 改成第17欄, 20200319 改成15欄
+                            If oldOd.r15 <> ws.Cells(i, 15).value Then
+                                strChange += "改頻率: " + oldOd.r15 + "=>" + ws.Cells(i, 15).value + "; "
                                 bChange = True
-                                oldOd.r13 = ws.Cells(i, 16).value
+                                oldOd.r15 = ws.Cells(i, 15).value
                             End If
-                            '批價單位, 第15欄, 20190611 改成第14欄
-                            If oldOd.r14 <> ws.Cells(i, 14).value Then
-                                strChange += "改批價單位: " + oldOd.r14 + "=>" + ws.Cells(i, 14).value + "; "
+                            '途徑, 第17欄, 20190611 改成第18欄, 20200319 改成16欄
+                            If oldOd.r16 <> ws.Cells(i, 16).value Then
+                                strChange += "改途徑: " + oldOd.r16 + "=>" + ws.Cells(i, 16).value + "; "
                                 bChange = True
-                                oldOd.r14 = ws.Cells(i, 14).value
+                                oldOd.r16 = ws.Cells(i, 16).value
                             End If
-                            '頻率, 第16欄, 20190611 改成第17欄
-                            If oldOd.r15 <> ws.Cells(i, 17).value Then
-                                strChange += "改頻率: " + oldOd.r15 + "=>" + ws.Cells(i, 17).value + "; "
+                            '調劑方式, 第19欄, 20190611 改成第20欄, 20200319 改成18欄
+                            If oldOd.r18 <> ws.Cells(i, 18).value Then
+                                strChange += "改調劑方式: " + oldOd.r18 + "=>" + ws.Cells(i, 18).value + "; "
                                 bChange = True
-                                oldOd.r15 = ws.Cells(i, 17).value
+                                oldOd.r18 = ws.Cells(i, 18).value
                             End If
-                            '途徑, 第17欄, 20190611 改成第18欄
-                            If oldOd.r16 <> ws.Cells(i, 18).value Then
-                                strChange += "改途徑: " + oldOd.r16 + "=>" + ws.Cells(i, 18).value + "; "
+                            '批價比率, 第20欄, 20190611 改成第15欄, 20200319 改成13欄
+                            If oldOd.r19 <> ws.Cells(i, 13).value Then
+                                strChange += "改批價比率: " + oldOd.r19 + "=>" + ws.Cells(i, 13).value + "; "
                                 bChange = True
-                                oldOd.r16 = ws.Cells(i, 18).value
+                                oldOd.r19 = ws.Cells(i, 13).value
                             End If
-                            '調劑方式, 第19欄, 20190611 改成第20欄
-                            If oldOd.r18 <> ws.Cells(i, 20).value Then
-                                strChange += "改調劑方式: " + oldOd.r18 + "=>" + ws.Cells(i, 20).value + "; "
+                            '劑型, 第26欄, 20200319 改成24欄
+                            If oldOd.r25 <> ws.Cells(i, 24).value Then
+                                strChange += "改劑型: " + oldOd.r25 + "=>" + ws.Cells(i, 24).value + "; "
                                 bChange = True
-                                oldOd.r18 = ws.Cells(i, 20).value
+                                oldOd.r25 = ws.Cells(i, 24).value
                             End If
-                            '批價比率, 第20欄, 20190611 改成第15欄
-                            If oldOd.r19 <> ws.Cells(i, 15).value Then
-                                strChange += "改批價比率: " + oldOd.r19 + "=>" + ws.Cells(i, 15).value + "; "
+                            '副作用, 第27欄, 20200319 改成25欄
+                            If oldOd.r26 <> ws.Cells(i, 25).value Then
+                                strChange += "改副作用: " + oldOd.r26 + "=>" + ws.Cells(i, 25).value + "; "
                                 bChange = True
-                                oldOd.r19 = ws.Cells(i, 15).value
+                                oldOd.r26 = ws.Cells(i, 25).value
                             End If
-                            '劑型, 第26欄
-                            If oldOd.r25 <> ws.Cells(i, 26).value Then
-                                strChange += "改劑型: " + oldOd.r25 + "=>" + ws.Cells(i, 26).value + "; "
+                            '用途, 第28欄, 20200319 改成26欄
+                            If oldOd.r27 <> ws.Cells(i, 26).value Then
+                                strChange += "改用途: " + oldOd.r27 + "=>" + ws.Cells(i, 26).value + "; "
                                 bChange = True
-                                oldOd.r25 = ws.Cells(i, 26).value
+                                oldOd.r27 = ws.Cells(i, 26).value
                             End If
-                            '副作用, 第27欄
-                            If oldOd.r26 <> ws.Cells(i, 27).value Then
-                                strChange += "改副作用: " + oldOd.r26 + "=>" + ws.Cells(i, 27).value + "; "
+                            '用藥指示, 第29欄, 20200319 改成27欄
+                            If oldOd.r28 <> ws.Cells(i, 27).value Then
+                                strChange += "改用藥指示: " + oldOd.r28 + "=>" + ws.Cells(i, 27).value + "; "
                                 bChange = True
-                                oldOd.r26 = ws.Cells(i, 27).value
+                                oldOd.r28 = ws.Cells(i, 27).value
                             End If
-                            '用途, 第28欄
-                            If oldOd.r27 <> ws.Cells(i, 28).value Then
-                                strChange += "改用途: " + oldOd.r27 + "=>" + ws.Cells(i, 28).value + "; "
+                            '外觀, 第30欄, 20200319 改成28欄
+                            If oldOd.r29 <> ws.Cells(i, 28).value Then
+                                strChange += "改外觀: " + oldOd.r29 + "=>" + ws.Cells(i, 28).value + "; "
                                 bChange = True
-                                oldOd.r27 = ws.Cells(i, 28).value
+                                oldOd.r29 = ws.Cells(i, 28).value
                             End If
-                            '用藥指示, 第29欄
-                            If oldOd.r28 <> ws.Cells(i, 29).value Then
-                                strChange += "改用藥指示: " + oldOd.r28 + "=>" + ws.Cells(i, 29).value + "; "
+                            '成分含量, 第31欄, 20200319 改成29欄
+                            If oldOd.r30 <> ws.Cells(i, 29).value Then
+                                strChange += "改成分含量: " + oldOd.r30 + "=>" + ws.Cells(i, 29).value + "; "
                                 bChange = True
-                                oldOd.r28 = ws.Cells(i, 29).value
+                                oldOd.r30 = ws.Cells(i, 29).value
                             End If
-                            '外觀, 第30欄
-                            If oldOd.r29 <> ws.Cells(i, 30).value Then
-                                strChange += "改外觀: " + oldOd.r29 + "=>" + ws.Cells(i, 30).value + "; "
+                            '廠牌, 第32欄, 20200319 改成30欄
+                            If oldOd.r31 <> ws.Cells(i, 30).value Then
+                                strChange += "改廠牌: " + oldOd.r31 + "=>" + ws.Cells(i, 30).value + "; "
                                 bChange = True
-                                oldOd.r29 = ws.Cells(i, 30).value
+                                oldOd.r31 = ws.Cells(i, 30).value
                             End If
-                            '成分含量, 第31欄
-                            If oldOd.r30 <> ws.Cells(i, 31).value Then
-                                strChange += "改成分含量: " + oldOd.r30 + "=>" + ws.Cells(i, 31).value + "; "
+                            '用藥/排程說明, 第33欄, 20200319 改成31欄
+                            If oldOd.r32 <> ws.Cells(i, 31).value Then
+                                strChange += "改用藥排程說明: " + oldOd.r32 + "=>" + ws.Cells(i, 31).value + "; "
                                 bChange = True
-                                oldOd.r30 = ws.Cells(i, 31).value
+                                oldOd.r32 = ws.Cells(i, 31).value
                             End If
-                            '廠牌, 第32欄
-                            If oldOd.r31 <> ws.Cells(i, 32).value Then
-                                strChange += "改廠牌: " + oldOd.r31 + "=>" + ws.Cells(i, 32).value + "; "
+                            '藥品備註, 第34欄, 20200319 改成32欄
+                            If oldOd.r33 <> ws.Cells(i, 32).value Then
+                                strChange += "改藥品備註: " + oldOd.r33 + "=>" + ws.Cells(i, 32).value + "; "
                                 bChange = True
-                                oldOd.r31 = ws.Cells(i, 32).value
+                                oldOd.r33 = ws.Cells(i, 32).value
                             End If
-                            '用藥/排程說明, 第33欄
-                            If oldOd.r32 <> ws.Cells(i, 33).value Then
-                                strChange += "改用藥排程說明: " + oldOd.r32 + "=>" + ws.Cells(i, 33).value + "; "
+                            '許可證字號, 第35欄, 20200319 改成33欄
+                            If oldOd.r34 <> ws.Cells(i, 33).value Then
+                                strChange += "改許可證字號: " + oldOd.r34 + "=>" + ws.Cells(i, 33).value + "; "
                                 bChange = True
-                                oldOd.r32 = ws.Cells(i, 33).value
+                                oldOd.r34 = ws.Cells(i, 33).value
                             End If
-                            '藥品備註, 第34欄
-                            If oldOd.r33 <> ws.Cells(i, 34).value Then
-                                strChange += "改藥品備註: " + oldOd.r33 + "=>" + ws.Cells(i, 34).value + "; "
+                            '檢驗代碼, 第41欄, 20200319 改成39欄
+                            If oldOd.r40 <> ws.Cells(i, 39).value Then
+                                strChange += "改檢驗代碼: " + oldOd.r40 + "=>" + ws.Cells(i, 39).value + "; "
                                 bChange = True
-                                oldOd.r33 = ws.Cells(i, 34).value
+                                oldOd.r40 = ws.Cells(i, 39).value
                             End If
-                            '許可證字號, 第35欄
-                            If oldOd.r34 <> ws.Cells(i, 35).value Then
-                                strChange += "改許可證字號: " + oldOd.r34 + "=>" + ws.Cells(i, 35).value + "; "
+                            '管制藥品, 第49欄, 20190611 改成第48欄, 20200319 改成47欄
+                            If oldOd.r48 <> ws.Cells(i, 47).value Then
+                                strChange += "改管制藥品: " + oldOd.r48 + "=>" + ws.Cells(i, 47).value + "; "
                                 bChange = True
-                                oldOd.r34 = ws.Cells(i, 35).value
+                                oldOd.r48 = ws.Cells(i, 47).value
                             End If
-                            '檢驗代碼, 第41欄
-                            If oldOd.r40 <> ws.Cells(i, 41).value Then
-                                strChange += "改檢驗代碼: " + oldOd.r40 + "=>" + ws.Cells(i, 41).value + "; "
+                            '門診缺藥, 第53欄, 20190929 改成第54欄, 20200319 改成53欄
+                            If oldOd.r52 <> ws.Cells(i, 53).value Then
+                                strChange += "改門診缺藥: " + oldOd.r52 + "=>" + ws.Cells(i, 53).value + "; "
                                 bChange = True
-                                oldOd.r40 = ws.Cells(i, 41).value
+                                oldOd.r52 = ws.Cells(i, 53).value
                             End If
-                            '管制藥品, 第49欄, 20190611 改成第48欄
-                            If oldOd.r48 <> ws.Cells(i, 48).value Then
-                                strChange += "改管制藥品: " + oldOd.r48 + "=>" + ws.Cells(i, 48).value + "; "
+                            '異動人員, 第61欄, 20190929 改成第62欄, 20200319 改成61欄
+                            If oldOd.r60 <> ws.Cells(i, 61).value Then
+                                strChange += "改異動人員: " + oldOd.r60 + "=>" + ws.Cells(i, 61).value + "; "
                                 bChange = True
-                                oldOd.r48 = ws.Cells(i, 48).value
+                                oldOd.r60 = ws.Cells(i, 61).value
                             End If
-                            '門診缺藥, 第53欄, 20190929 改成第54欄
-                            If oldOd.r52 <> ws.Cells(i, 54).value Then
-                                strChange += "改門診缺藥: " + oldOd.r52 + "=>" + ws.Cells(i, 54).value + "; "
+                            '異動日期, 第62欄, 20190929 改成第63欄, 20200319 改成62欄
+                            If oldOd.r61 <> ws.Cells(i, 62).value Then
+                                strChange += "改異動日期: " + oldOd.r61 + "=>" + ws.Cells(i, 62).value + "; "
                                 bChange = True
-                                oldOd.r52 = ws.Cells(i, 54).value
-                            End If
-                            '異動人員, 第61欄, 20190929 改成第62欄
-                            If oldOd.r60 <> ws.Cells(i, 62).value Then
-                                strChange += "改異動人員: " + oldOd.r60 + "=>" + ws.Cells(i, 62).value + "; "
-                                bChange = True
-                                oldOd.r60 = ws.Cells(i, 62).value
-                            End If
-                            '異動日期, 第62欄, 20190929 改成第63欄
-                            If oldOd.r61 <> ws.Cells(i, 63).value Then
-                                strChange += "改異動日期: " + oldOd.r61 + "=>" + ws.Cells(i, 63).value + "; "
-                                bChange = True
-                                oldOd.r61 = ws.Cells(i, 63).value
+                                oldOd.r61 = ws.Cells(i, 62).value
                             End If
 
                             If bChange = True Then
@@ -1201,7 +1209,8 @@ Module SharedFunctions
         ' a FOR loop, LIST of A, B, C, D, E, F, G, H, I, J, K, L, M
         ' Making a list
         'A 周孫元診所; B 聖愛; C 啟智; D 由根; E 方舟; F 景仁; G 香園; H 觀音; I 桃園; J 誠信; K 祥育; L 春暉; M 世美
-        Dim lArea As New List(Of String) From {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"}
+        '20200319 新增 N 華光
+        Dim lArea As New List(Of String) From {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"}
         For Each a In lArea
             '[NAME:cmbArea]
             'aut.ControlFocus("日收入報表A", "", "[NAME:cmbArea]")
@@ -1256,11 +1265,14 @@ Module SharedFunctions
 
                     '檢查檔案格式
                     ' 可以算出總筆數,第一行是標題,不算
-                    Dim listToAdd As New List(Of String) From {"狀態", "收據號", "批價人員", "作廢日期", "看診日期", "午別", "診別", "科別", "醫師", "身分", "就醫序號", "優免", "部分負擔",
+                    'Dim listToAdd As New List(Of String) From {"狀態", "收據號", "批價人員", "作廢日期", "看診日期", "午別", "診別", "科別", "醫師", "身分", "就醫序號", "優免", "部分負擔",
+                    '"身分證號", "患者姓名", "醫療費用", "掛號費用", "部分負擔", "押金", "自付金額", "藥費加重", "欠收", "折扣", "應收金額", "實收金額", "收據說明", "說明"}
+                    '20200319 修改,原本「部分負擔」改成「部分負擔說明」
+                    Dim listToAdd As New List(Of String) From {"狀態", "收據號", "批價人員", "作廢日期", "看診日期", "午別", "診別", "科別", "醫師", "身分", "就醫序號", "優免", "部分負擔說明",
                     "身分證號", "患者姓名", "醫療費用", "掛號費用", "部分負擔", "押金", "自付金額", "藥費加重", "欠收", "折扣", "應收金額", "實收金額", "收據說明", "說明"}
                     Dim listToDel As New List(Of String) From {"項次", "病歷號", "性別", "生日", "年齡", "還款金額", "電話", "地址", "國籍"}
                     ' 檢查是否有充足欄位?
-                    Dim j As Int16 = 1
+                    Dim j As Int16 = 1  'index
                     Dim x As Boolean = False
                     Do
                         If ws.Cells(1, j).value = "" Then
@@ -1269,7 +1281,7 @@ Module SharedFunctions
                             listToAdd.Remove(ws.Cells(1, j).value)
                             j += 1
                         End If
-                    Loop Until x
+                    Loop Until x    '當欄位空白就跳出迴圈
                     Dim totalColumn As Int16 = j - 1
                     If listToAdd.Count = 0 Then
                         '                    Record_adm("匯入批價檔", "檔案格式正確")

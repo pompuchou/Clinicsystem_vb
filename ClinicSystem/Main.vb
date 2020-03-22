@@ -1040,6 +1040,8 @@ Public Class Main
         aut.Send("{Down}")
         aut.Send("{Down}")
         aut.Send("{Down}")
+        '20200319 修改程式,再往下一格
+        aut.Send("{Down}")
         aut.Send("{Enter}")
         aut.Sleep(5000)
         Do Until aut.WinExists("活頁簿")
